@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { clearCanvas, setupCanvas } from '../core/canvas.js'
 import { drawScene } from '../map/scene/drawScene.js'
 import { findPointAt } from '../interaction/hitTest.js'
@@ -6,7 +6,6 @@ import { findPointAt } from '../interaction/hitTest.js'
 export function IsometricMap({ activeKey, onSelect }) {
   const canvasRef = useRef(null)
   const timeRef = useRef(0)
-  const [status, setStatus] = useState('Mapa 3D procedural carregando...')
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -25,7 +24,6 @@ export function IsometricMap({ activeKey, onSelect }) {
     }
 
     frameId = requestAnimationFrame(render)
-    setStatus('Mapa 3D procedural ativo: tiles, rotas, cristais e pontos clicáveis.')
 
     return () => {
       disposed = true
@@ -42,13 +40,11 @@ export function IsometricMap({ activeKey, onSelect }) {
   }
 
   return (
-    <div className="isometric-map-shell">
-      <canvas
-        ref={canvasRef}
-        className="isometric-map-canvas"
-        onPointerDown={handlePointerDown}
-      />
-      <div className="map-status">{status}</div>
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="isometric-map-canvas"
+      onPointerDown={handlePointerDown}
+      aria-label="Mapa 3D procedural do Kérium"
+    />
   )
 }
