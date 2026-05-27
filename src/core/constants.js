@@ -1,8 +1,8 @@
-export const MAP_SIZE = 15
+export const MAP_SIZE = 17
 
 export const TILE = {
-  minWidth: 28,
-  maxWidth: 58,
+  minWidth: 34,
+  maxWidth: 82,
   ratio: 0.52,
   heightScale: 0.78,
 }
