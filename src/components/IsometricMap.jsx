@@ -1,41 +1,35 @@
 import { useEffect, useRef } from 'react'
-import { clearCanvas, setupCanvas } from '../core/canvas.js'
-import { drawScene } from '../map/scene/drawScene.js'
 import { findPointAt } from '../interaction/hitTest.js'
+import { startWebGLMap } from '../webgl/renderer.js'
 
 export function IsometricMap({ activeKey, onSelect }) {
   const canvasRef = useRef(null)
-  const timeRef = useRef(0)
+  const activeKeyRef = useRef(activeKey)
+  const rendererRef = useRef(null)
+
+  useEffect(() => {
+    activeKeyRef.current = activeKey
+  }, [activeKey])
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return undefined
 
-    let frameId = 0
-    let disposed = false
-
-    function render(time) {
-      if (disposed) return
-      timeRef.current = time
-      const { ctx, width, height } = setupCanvas(canvas)
-      clearCanvas(ctx, width, height)
-      drawScene(ctx, width, height, activeKey, time)
-      frameId = requestAnimationFrame(render)
-    }
-
-    frameId = requestAnimationFrame(render)
+    const renderer = startWebGLMap(canvas, () => activeKeyRef.current)
+    rendererRef.current = renderer
 
     return () => {
-      disposed = true
-      cancelAnimationFrame(frameId)
+      renderer.dispose()
+      rendererRef.current = null
     }
-  }, [activeKey])
+  }, [])
 
   function handlePointerDown(event) {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const point = findPointAt(event.clientX, event.clientY, canvas.getBoundingClientRect(), timeRef.current)
+    const time = rendererRef.current?.getTime?.() || 0
+    const point = findPointAt(event.clientX, event.clientY, canvas.getBoundingClientRect(), time)
     if (point) onSelect(point)
   }
 
@@ -44,7 +38,7 @@ export function IsometricMap({ activeKey, onSelect }) {
       ref={canvasRef}
       className="isometric-map-canvas"
       onPointerDown={handlePointerDown}
-      aria-label="Mapa 3D procedural do Kérium"
+      aria-label="Mapa 3D procedural WebGL do Kérium"
     />
   )
 }
