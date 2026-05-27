@@ -15,13 +15,14 @@ html,
 body,
 #root {
   width: 100%;
+  height: 100%;
   min-height: 100%;
   margin: 0;
 }
 
 body {
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
   background:
     radial-gradient(circle at 30% 10%, rgba(40, 240, 208, 0.10), transparent 28%),
     radial-gradient(circle at 82% 18%, rgba(224, 180, 93, 0.10), transparent 24%),
@@ -33,209 +34,35 @@ button {
 }
 
 .app-shell {
-  width: min(100%, 1180px);
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 18px;
-  display: grid;
-  grid-template-columns: minmax(320px, 1fr) 360px;
-  gap: 18px;
-}
-
-.map-card,
-.hud-panel {
-  border: 1px solid rgba(255, 228, 154, 0.14);
-  border-radius: 28px;
-  background: rgba(5, 11, 17, 0.78);
-  box-shadow:
-    0 28px 90px rgba(0, 0, 0, 0.42),
-    inset 0 0 80px rgba(40, 240, 208, 0.045);
-}
-
-.map-card {
-  min-height: calc(100vh - 36px);
-  overflow: hidden;
-}
-
-.isometric-map-shell {
-  position: relative;
   width: 100%;
-  height: 100%;
-  min-height: calc(100vh - 36px);
+  height: 100vh;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: block;
+  background: #050b11;
 }
 
 .isometric-map-canvas {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   cursor: pointer;
   touch-action: manipulation;
 }
 
-.map-status {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 18px;
-  border: 1px solid rgba(255, 228, 154, 0.16);
-  border-radius: 18px;
-  padding: 12px 14px;
-  color: rgba(246, 240, 221, 0.74);
-  background: rgba(3, 8, 11, 0.72);
-  backdrop-filter: blur(10px);
-  font-size: 0.82rem;
-}
-
-.hud-panel {
-  align-self: stretch;
-  padding: 24px;
-}
-
-.eyebrow {
-  margin: 0 0 16px;
-  color: #e0b45d;
-  font-size: 0.84rem;
-  font-weight: 900;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-.hud-panel h1 {
-  margin: 0;
-  color: #f8f0d2;
-  font-size: clamp(2.1rem, 4vw, 3.25rem);
-  line-height: 1.02;
-}
-
-.description {
-  margin: 20px 0 0;
-  color: rgba(246, 240, 221, 0.68);
-  font-size: 1.05rem;
-  line-height: 1.7;
-}
-
+.map-card,
+.hud-panel,
+.map-status,
+.point-details,
+.map-title-card,
+.map-click-layer,
+.map-point-button,
+.point-list,
+.legend-grid,
 .status-card,
-.route-card {
-  margin-top: 24px;
-  border: 1px solid rgba(255, 228, 154, 0.14);
-  border-radius: 22px;
-  padding: 18px;
-  background:
-    linear-gradient(145deg, rgba(8, 19, 25, 0.92), rgba(8, 15, 22, 0.8)),
-    radial-gradient(circle at top left, rgba(40, 240, 208, 0.12), transparent 48%);
-}
-
-.status-card span {
-  display: block;
-  color: #28f0d0;
-  font-size: 0.74rem;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.status-card strong {
-  display: block;
-  margin-top: 8px;
-  color: #f8f0d2;
-  font-size: 1.5rem;
-}
-
-.status-card p {
-  margin: 10px 0 0;
-  color: rgba(246, 240, 221, 0.68);
-  line-height: 1.55;
-}
-
-.route-card h2 {
-  margin: 0 0 12px;
-  color: #f8f0d2;
-  font-size: 1rem;
-}
-
-.point-list {
-  display: grid;
-  gap: 8px;
-  max-height: 380px;
-  overflow: auto;
-  padding-right: 2px;
-}
-
-.point-list button {
-  width: 100%;
-  border: 1px solid rgba(255, 228, 154, 0.12);
-  border-radius: 14px;
-  padding: 10px 12px;
-  color: #f8f0d2;
-  background: rgba(255, 255, 255, 0.035);
-  cursor: pointer;
-  text-align: left;
-}
-
-.point-list button.selected,
-.point-list button:hover {
-  border-color: rgba(40, 240, 208, 0.55);
-  background: rgba(40, 240, 208, 0.09);
-}
-
-.point-list strong,
-.point-list small {
-  display: block;
-}
-
-.point-list small {
-  margin-top: 4px;
-  color: rgba(246, 240, 221, 0.54);
-}
-
-.legend-grid {
-  margin-top: 18px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.legend-grid span {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: rgba(246, 240, 221, 0.72);
-  font-size: 0.88rem;
-}
-
-.legend-grid i {
-  width: 14px;
-  height: 14px;
-  border-radius: 4px;
-  display: inline-block;
-}
-
-.legend-road { background: #e0b45d; }
-.legend-crystal { background: #28f0d0; }
-.legend-ruin { background: #59626e; }
-.legend-water { background: #156d8b; }
-
-@media (max-width: 900px) {
-  .app-shell {
-    grid-template-columns: 1fr;
-    padding: 10px;
-  }
-
-  .map-card,
-  .isometric-map-shell {
-    min-height: 760px;
-  }
-}
-
-@media (max-width: 520px) {
-  .map-card,
-  .isometric-map-shell {
-    min-height: 690px;
-    border-radius: 24px;
-  }
-
-  .hud-panel {
-    padding: 20px;
-    border-radius: 24px;
-  }
+.route-card,
+.description,
+.eyebrow {
+  display: none !important;
 }
